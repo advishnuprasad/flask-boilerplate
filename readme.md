@@ -27,19 +27,6 @@ flask db upgrade
 flask init
 ```
 
-
-
-
-
-
-
-
-https://www.talentlms.com/pages/docs/TalentLMS-API-Documentation.pdf
-https://github.com/govex/talentpy/blob/master/talentpy/talentpy.py
-https://github.com/ib1984/py-talentlms/blob/master/talentlms/talentlms.py
-https://github.com/jhnferraris/talentlms-php-api
-https://github.com/tylermercier/talentlms
-
 ```
 DEBUG=0 authbind gunicorn -b 0.0.0.0:80  app.wsgi:application --daemon
 ```
