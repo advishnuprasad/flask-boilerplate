@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  celery:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.celery
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/2
+      - CELERY_RESULT_BACKEND_URL=redis://redis:6379/2
+      - DATABASE_URI=postgresql://myapp:pwd@db:5432/myapp_dev
+    depends_on:
+      - redis
+      - db
+  db:
+    image: postgres:14.4
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: pwd
+      POSTGRES_DB: myapp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    command: ["postgres", "-c", "log_destination=stderr"]
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+volumes:
+  db-data:
+    driver: local

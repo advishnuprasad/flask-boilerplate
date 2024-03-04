@@ -1,0 +1,15 @@
+FROM python:3.10
+
+RUN mkdir /code
+WORKDIR /code
+
+COPY requirements.txt setup.py ./
+RUN pip install -U pip
+RUN pip install -r requirements.txt
+RUN pip install -e .
+RUN pip install gunicorn
+
+COPY myapp myapp/
+COPY migrations migrations/
+
+CMD ["celery", "-A", "myapp.celery", "worker", "-B", "--loglevel=info"]
